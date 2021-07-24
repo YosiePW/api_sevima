@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatistikaController;
+use App\Http\Controllers\RSakitController;
+
 
 
 /*
@@ -30,15 +32,23 @@ Route::group(['middleware' => ['jwt.verify:admin,petugas,masyarakat']], function
     Route::get('statistika', [StatistikaController::class, 'getAll']); //get all
 	Route::get('statistika/{id_statistika}', [StatistikaController::class, 'getById']); //get all
 	Route::get('statistika/{limit}/{offset}', [StatistikaController::class, 'getAll']); //get all dengan limit
+
+    Route::get('rsakit', [RSakitController::class, 'getAll']); //get all
+	Route::get('rsakit/{id_rumahsakit}', [RSakitController::class, 'getById']); //get all
+	Route::get('rsakit/{limit}/{offset}', [RSakitController::class, 'getAll']); //get all dengan limit
 });
 
 Route::group(['middleware' => ['jwt.verify:admin']], function () { //untuk hak akses admin dan petugas
-    Route::get('statistika', [StatistikaController::class, 'getAll']); //get all
-	Route::get('statistika/{id_statistika}', [StatistikaController::class, 'getById']); //get all
-	Route::get('statistika/{limit}/{offset}', [StatistikaController::class, 'getAll']); //get all dengan limit
+    
     Route::post('statistika', [StatistikaController::class, 'insert']); //insert
     Route::post('statistika/ubah/{id_statistika}', [StatistikaController::class, 'update']); //update
     Route::delete('statistika/{id_statistika}', [StatistikaController::class, 'delete']); //delete
+
+    Route::post('rsakit', [RSakitController::class, 'insert']); //insert
+    Route::post('rsakit/ubah/{id_rumahsakit}', [RSakitController::class, 'update']); //update
+    Route::delete('rsakit/{id_rumahsakit}', [RSakitController::class, 'delete']); //delete
+
+
 });
 
 Route::group(['middleware' => ['jwt.verify:masyarakat']], function () { //untuk hak akses masyarakat
