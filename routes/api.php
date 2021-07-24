@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatistikaController;
 use App\Http\Controllers\RSakitController;
+use App\Http\Controllers\VaksinController;
+use App\Http\Controllers\TanggapanController;
 
 
 
@@ -48,11 +50,20 @@ Route::group(['middleware' => ['jwt.verify:admin']], function () { //untuk hak a
     Route::post('rsakit/ubah/{id_rumahsakit}', [RSakitController::class, 'update']); //update
     Route::delete('rsakit/{id_rumahsakit}', [RSakitController::class, 'delete']); //delete
 
+    Route::get('vaksin', [VaksinController::class, 'getAllVaksin']); //get all
+	Route::get('vaksin/{id_vaksin}', [VaksinController::class, 'getById']); //get all
+	Route::get('vaksin/{limit}/{offset}', [VaksinController::class, 'getAllVaksin']); //get all by limit
+	Route::post('vaksin/status/{id_vaksin}', [VaksinController::class, 'changeStatus']); //ubah status pengaduan
+
+    Route::post('vaksin/tanggapan/{id_vaksin}', [TanggapanController::class, 'send']); //memasukan tanggapan
+    Route::get('tanggapan', [TanggapanController::class, 'getAllTanggapan']); //get all
 
 });
 
 Route::group(['middleware' => ['jwt.verify:masyarakat']], function () { //untuk hak akses masyarakat
-   
+    Route::post('masyarakat/vaksin', [VaksinController::class, 'insert']); //insert
+    Route::get('masyarakat/vaksin', [VaksinController::class, 'getAllVaksin']); //get all
+	Route::get('masyarakat/vaksin/{limit}/{offset}', [VaksinController::class, 'getAllVaksin']); //get all
 
 
 });
